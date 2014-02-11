@@ -6,7 +6,7 @@ A simple cakephp behavior for scoping finds
 
 ## Background
 
-I didn't want to write a bunch of custom finds so I just defined an array and made a behavior to interact with that array.
+I didn't want to write a bunch of custom finds so I just defined an array and made a behavior to interact with that array. Yep.
 
 ## Requirements
 
