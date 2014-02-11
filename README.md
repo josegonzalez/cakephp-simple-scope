@@ -110,7 +110,7 @@ You can also get a list of scopes:
 
 ```php
 <?php
-$activeUsers = $this->User->scopes(');
+$activeUsers = $this->User->scopes();
 ?>
 ```
 
