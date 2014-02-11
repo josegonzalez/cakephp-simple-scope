@@ -1,45 +1,43 @@
 <?php
 App::uses('ModelBehavior', 'Model');
 
-class ScopeBehavior extends ModelBehavior
-{
-    public function scopedFind(Model $model, $type)
-    {
-        if (empty($model->scopes)) {
-            return array();
-        }
+class ScopeBehavior extends ModelBehavior {
 
-        if (!isset($model->scopes[$type])) {
-            return array();
-        }
+	public function scopedFind(Model $model, $type) {
+		if (empty($model->scopes)) {
+			return array();
+		}
 
-        $config = $model->scopes[$type];
-        if ($config['find'] === null) {
-            return array();
-        }
+		if (!isset($model->scopes[$type])) {
+			return array();
+		}
 
-        if (!empty($config['find']['virtualFields'])) {
-            $model->virtualFields = $config['find']['virtualFields'];
-        }
+		$config = $model->scopes[$type];
+		if ($config['find'] === null) {
+			return array();
+		}
 
-        if (!empty($config['find']['options']['contain'])) {
-            $model->Behaviors->attach('Containable');
-        }
+		if (!empty($config['find']['virtualFields'])) {
+			$model->virtualFields = $config['find']['virtualFields'];
+		}
 
-        return $model->find($config['find']['type'], $config['find']['options']);
-    }
+		if (!empty($config['find']['options']['contain'])) {
+			$model->Behaviors->attach('Containable');
+		}
 
-    public function scopes(Model $model)
-    {
-        if (empty($model->scopes)) {
-            return array();
-        }
+		return $model->find($config['find']['type'], $config['find']['options']);
+	}
 
-        $data = array();
-        foreach ($model->scopes as $group => $config) {
-            $data[$group] = $config['name'];
-        }
+	public function scopes(Model $model) {
+		if (empty($model->scopes)) {
+			return array();
+		}
 
-        return $data;
-    }
+		$data = array();
+		foreach ($model->scopes as $group => $config) {
+			$data[$group] = $config['name'];
+		}
+
+		return $data;
+	}
 }
