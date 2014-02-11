@@ -65,7 +65,7 @@ App::uses('Model', 'Model');
 
 class AppModel extends Model
 {
-    public $actsAs = array('Scope');
+    public $actsAs = array('SimpleScope.Scope');
 }
 ?>
 ```
