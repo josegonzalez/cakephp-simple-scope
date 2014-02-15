@@ -106,6 +106,14 @@ $activeUsers = $this->User->scopedFind('active_admin');
 ?>
 ```
 
+You can alternatively use it as a custom model find:
+
+```php
+<?php
+$activeUsers = $this->User->find('active_admin');
+?>
+```
+
 You can also get a list of scopes:
 
 ```php
