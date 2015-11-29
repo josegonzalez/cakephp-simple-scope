@@ -28,6 +28,7 @@ class ScopeBehavior extends ModelBehavior {
  * @param string $method Model using the behavior
  * @param mixed $params Array of arguments for the called method
  * @return void
+ * @throws CakeException
  */
 	public function __call($method, $params) {
 		$type = lcfirst(preg_replace('/^_find/', '', $method));
@@ -48,6 +49,7 @@ class ScopeBehavior extends ModelBehavior {
  * @param array $query Query.
  * @param array $results Results.
  * @return array
+ * @throws CakeException
  * @see Model::find()
  */
 	protected function _findScoped(Model $Model, $type, $state, $query, $results = array()) {
