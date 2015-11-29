@@ -43,6 +43,7 @@ class ScopeBehavior extends ModelBehavior {
  * Handles the before/after filter logic for find('scoped') operations. Only called by Model::find().
  *
  * @param Model $Model Model using the behavior
+ * @param array $type type of query
  * @param string $state Either "before" or "after"
  * @param array $query Query.
  * @param array $results Results.
