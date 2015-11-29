@@ -4,20 +4,34 @@ App::uses('ModelBehavior', 'Model');
 
 class ScopeBehavior extends ModelBehavior {
 
-	protected $contains = array();
+	protected $_virtualFields = array();
 
-	protected $virtualFields = array();
-
-	public function setup(Model $model, $config = array()) {
-		foreach ($model->scopes as $type => $options) {
-			$this->mapMethods = array('/^_find' . ucfirst($type) .'$/' => '_find' . ucfirst($type));
-			$model->findMethods[$type] = true;
+/**
+ * Initiate behavior for the model using specified settings.
+ *
+ * Available settings:
+ *
+ * @param Model $Model Model using the behavior
+ * @param array $settings Settings to override for model.
+ * @return void
+ */
+	public function setup(Model $Model, $settings = array()) {
+		foreach ($Model->scopes as $type => $options) {
+			$this->mapMethods = array('/^_find' . ucfirst($type) . '$/' => '_find' . ucfirst($type));
+			$Model->findMethods[$type] = true;
 		}
 	}
 
+/**
+ * Magic __call function to re-wrote a scoped find to the behavior
+ *
+ * @param string $method Model using the behavior
+ * @param mixed $params Array of arguments for the called method
+ * @return void
+ */
 	public function __call($method, $params) {
 		$type = lcfirst(preg_replace('/^_find/', '', $method));
-		if ($type == $method || empty($params) || !($params[0] instanceOf Model)) {
+		if ($type === $method || empty($params) || !($params[0] instanceof Model)) {
 			throw new CakeException(__d('cake_dev', 'Method %s does not exist', $method));
 		}
 
@@ -25,25 +39,35 @@ class ScopeBehavior extends ModelBehavior {
 		return $this->_findScoped($params[0], $type, $params[2], $params[3], $results);
 	}
 
-	protected function _findScoped(Model $model, $type, $state, $query, $results = array()) {
-		if (empty($model->scopes)) {
+/**
+ * Handles the before/after filter logic for find('scoped') operations. Only called by Model::find().
+ *
+ * @param Model $Model Model using the behavior
+ * @param string $state Either "before" or "after"
+ * @param array $query Query.
+ * @param array $results Results.
+ * @return array
+ * @see Model::find()
+ */
+	protected function _findScoped(Model $Model, $type, $state, $query, $results = array()) {
+		if (empty($Model->scopes)) {
 			throw new CakeException(__d('cake_dev', 'Method %s does not exist', $method));
 		}
 
-		if (!isset($model->scopes[$type])) {
+		if (!isset($Model->scopes[$type])) {
 			throw new CakeException(__d('cake_dev', 'Method %s does not exist', $method));
 		}
 
-		$config = $model->scopes[$type];
+		$config = $Model->scopes[$type];
 
 		if ($state === 'before') {
 			if (!empty($config['find']['virtualFields'])) {
-				$this->virtualFields[$model->alias] = $model->virtualFields;
-				$model->virtualFields = $config['find']['virtualFields'];
+				$this->_virtualFields[$Model->alias] = $Model->virtualFields;
+				$Model->virtualFields = $config['find']['virtualFields'];
 			}
 
 			if (!empty($config['find']['options']['contain'])) {
-				$model->Behaviors->attach('Containable');
+				$Model->Behaviors->attach('Containable');
 			}
 
 			foreach ($query as $key => $value) {
@@ -58,12 +82,12 @@ class ScopeBehavior extends ModelBehavior {
 				return $query;
 			}
 
-			return $model->$method($state, $query, $results);
+			return $Model->$method($state, $query, $results);
 		}
 
 		if (!empty($config['find']['virtualFields'])) {
-			$model->virtualFields = $this->virtualFields[$model->alias];
-			$this->virtualFields[$model->alias] = null;
+			$Model->virtualFields = $this->_virtualFields[$Model->alias];
+			$this->_virtualFields[$Model->alias] = null;
 		}
 
 		$method = '_find' . ucfirst($config['find']['type']);
@@ -71,20 +95,35 @@ class ScopeBehavior extends ModelBehavior {
 			return $results;
 		}
 
-		return $model->$method($state, $query, $results);
+		return $Model->$method($state, $query, $results);
 	}
 
-	public function scopedFind(Model $model, $type, $options = array()) {
-		return $model->find($type, $options);
+/**
+ * Alias for scoped find
+ *
+ * @param Model $Model Model using the behavior
+ * @param array $type type of query
+ * @param string $options Array of options for the find
+ * @return array
+ * @see Model::find()
+ */
+	public function scopedFind(Model $Model, $type, $options = array()) {
+		return $Model->find($type, $options);
 	}
 
-	public function scopes(Model $model) {
-		if (empty($model->scopes)) {
+/**
+ * Returns a list of scoped finds available
+ *
+ * @param Model $Model Model using the behavior
+ * @return array
+ */
+	public function scopes(Model $Model) {
+		if (empty($Model->scopes)) {
 			return array();
 		}
 
 		$data = array();
-		foreach ($model->scopes as $group => $config) {
+		foreach ($Model->scopes as $group => $config) {
 			$data[$group] = $config['name'];
 		}
 
