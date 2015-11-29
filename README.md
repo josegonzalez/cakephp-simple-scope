@@ -1,4 +1,9 @@
-[![Build Status](https://travis-ci.org/josegonzalez/cakephp-simple-scope.png?branch=master)](https://travis-ci.org/josegonzalez/cakephp-simple-scope) [![Coverage Status](https://coveralls.io/repos/josegonzalez/cakephp-simple-scope/badge.png?branch=master)](https://coveralls.io/r/josegonzalez/cakephp-simple-scope?branch=master) [![Total Downloads](https://poser.pugx.org/josegonzalez/cakephp-simple-scope/d/total.png)](https://packagist.org/packages/josegonzalez/cakephp-simple-scope) [![Latest Stable Version](https://poser.pugx.org/josegonzalez/cakephp-simple-scope/v/stable.png)](https://packagist.org/packages/josegonzalez/cakephp-simple-scope)
+[![Build Status](https://img.shields.io/travis/josegonzalez/cakephp-simple-scope/master.svg?style=flat-square)](https://travis-ci.org/josegonzalez/cakephp-simple-scope) 
+[![Coverage Status](https://img.shields.io/coveralls/josegonzalez/cakephp-simple-scope.svg?style=flat-square)](https://coveralls.io/r/josegonzalez/cakephp-simple-scope?branch=master) 
+[![Total Downloads](https://img.shields.io/packagist/dt/josegonzalez/cakephp-simple-scope.svg?style=flat-square)](https://packagist.org/packages/josegonzalez/cakephp-simple-scope) 
+[![Latest Stable Version](https://img.shields.io/packagist/v/josegonzalez/cakephp-simple-scope.svg?style=flat-square)](https://packagist.org/packages/josegonzalez/cakephp-simple-scope) 
+[![Documentation Status](https://readthedocs.org/projects/cakephp-simple-scope/badge/?version=latest&style=flat-square)](https://readthedocs.org/projects/cakephp-simple-scope/?badge=latest)
+[![Gratipay](https://img.shields.io/gratipay/josegonzalez.svg?style=flat-square)](https://gratipay.com/~josegonzalez/)
 
 # cakephp-simple-scope
 
